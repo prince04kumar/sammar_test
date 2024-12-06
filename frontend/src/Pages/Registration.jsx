@@ -1,10 +1,11 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const App = () => {
   const [formData, setFormData] = useState({
     teamName: "",
-    leaderName: "",
-    leaderWhatsapp: "",
+    teamLeaderName: "",
+    teamLeaderPhone: "",
     leaderBranch: "",
     leaderGraduationYear: "",
   });
@@ -23,22 +24,23 @@ const App = () => {
       alert("Please verify you are human.");
       return;
     }
-
+    console.log("Form Data:", formData); // Log formData to check its contents
     try {
-      const response = await fetch("http://localhost:5000/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
+      const response = await axios.post(
+        "http://localhost:3000/register/user",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.status === 201) {
         alert("Registration successful!");
         setFormData({
           teamName: "",
-          leaderName: "",
-          leaderWhatsapp: "",
+          teamLeaderName: "",
+          teamLeaderPhone: "",
           leaderBranch: "",
           leaderGraduationYear: "",
         });
@@ -50,6 +52,7 @@ const App = () => {
       alert("An error occurred. Please try again.");
     }
   };
+
 
   return (
     <div className="flex flex-col md:flex-row md:h-screen bg-gray-900 text-white p-4 md:p-11">
@@ -68,19 +71,19 @@ const App = () => {
           />
           <input
             type="text"
-            name="leaderName"
+            name="teamLeaderName"
             placeholder="Your Leader Name"
             className="w-full px-4 py-2 bg-gray-700 rounded-md text-gray-200 placeholder-gray-400"
-            value={formData.leaderName}
+            value={formData.teamLeaderName}
             onChange={handleChange}
             required
           />
           <input
             type="text"
-            name="leaderWhatsapp"
-            placeholder="Your Leader Whatsapp Number"
+            name="teamLeaderPhone"
+            placeholder="Team Leader Phone"
             className="w-full px-4 py-2 bg-gray-700 rounded-md text-gray-200 placeholder-gray-400"
-            value={formData.leaderWhatsapp}
+            value={formData.teamLeaderPhone}
             onChange={handleChange}
             required
           />
@@ -97,12 +100,13 @@ const App = () => {
           <input
             type="text"
             name="leaderGraduationYear"
-            placeholder="Leader Year of Graduation"
+            placeholder="Year of Graduation"
             className="w-full px-4 py-2 bg-gray-700 rounded-md text-gray-200 placeholder-gray-400"
             value={formData.leaderGraduationYear}
             onChange={handleChange}
             required
           />
+
           {/* hCaptcha Placeholder */}
           <div className="flex items-center space-x-2 mt-4">
             <input
@@ -124,9 +128,13 @@ const App = () => {
         </form>
       </div>
       {/* Rules Section */}
-      <div className="w-full md:w-1/2 p-4 md:p-8 flex flex-col justify-center bg-gray-900 ">
-        <h2 className="text-lg md:text-xl font-bold text-purple-400 mb-4">SAMMAR</h2>
-        <h3 className="text-md md:text-lg font-semibold mb-2">Rules and Regulations</h3>
+      <div className="w-full md:w-1/2 p-4 md:p-8 flex flex-col justify-center bg-gray-900 overflow-auto">
+        <h2 className="text-lg md:text-xl font-bold text-purple-400 mb-4">
+          SAMMAR
+        </h2>
+        <h3 className="text-md md:text-lg font-semibold mb-2">
+          Rules and Regulations
+        </h3>
         <ul className="list-decimal list-inside text-gray-300 space-y-2">
           <li>Team can have a maximum of four members.</li>
           <li>

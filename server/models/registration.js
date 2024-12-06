@@ -1,26 +1,26 @@
 const mongoose = require('mongoose');
 
 const teamRegistrationSchema = new mongoose.Schema({
-  eventName: {
-    type: String,
-    required: true,
-    trim: true,
-  },
+  // eventName: {
+  //   type: String,
+  //   required: true,
+  //   trim: true,
+  // },
   teamName: {
     type: String,
     required: true,
-    trim: true,
+   // trim: true,
   },
   teamLeader: {
     name: {
       type: String,
       required: true,
-      trim: true,
+     // trim: true,
     },
     phone: {
-      type: String,
+      type: Number,
       required: true,
-      match: /^\d{10}$/, // Ensures a valid 10-digit phone number
+    //  match: /^\d{10}$/, // Ensures a valid 10-digit phone number
     },
     branch: {
       type: String,
@@ -30,7 +30,7 @@ const teamRegistrationSchema = new mongoose.Schema({
     yearOfGraduation: {
       type: Number,
       required: true,
-      min: new Date().getFullYear(), // Ensures graduation year is not in the past
+     // min: new Date().getFullYear(), // Ensures graduation year is not in the past
     },
   },
 }, {

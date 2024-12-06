@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const TeamRegistration = require("../../models/registration")
 
-router.post('/', async (req, res) => {
+router.post('/user', async (req, res) => {
     try {
         // Extract data from the request body
         const {
-          eventName,
+        //  eventName,
           teamName,
           teamLeaderName,
           teamLeaderPhone,
@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
     
         // Validate required fields
         if (
-          !eventName ||
+       //   !eventName ||
           !teamName ||
           !teamLeaderName ||
           !teamLeaderPhone ||
@@ -25,10 +25,12 @@ router.post('/', async (req, res) => {
         ) {
           return res.status(400).json({ error: 'All fields are required.' });
         }
+
+     
     
         // Create a new team registration document
         const newRegistration = new TeamRegistration({
-          eventName,
+         // eventName,
           teamName,
           teamLeader: {
             name: teamLeaderName,
@@ -40,7 +42,7 @@ router.post('/', async (req, res) => {
     
         // Save to the database
         const savedRegistration = await newRegistration.save();
-    
+        console.log('Registration saved:', savedRegistration);
         // Send a success response
         res.status(201).json({
           message: 'Team registered successfull!',
