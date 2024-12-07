@@ -5,6 +5,7 @@ const cors = require("cors");
 const path = require("path");
 const mongoose = require("mongoose");
 const registrationRoutes = require("./routers/registration");
+const adminRoutes = require('./routers/admin')
 
 const PORT = process.env.PORT || 3000;
 const uri = process.env.MONGO_URI;
@@ -38,6 +39,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use("/register", registrationRoutes);
+app.use("/admin", adminRoutes);
 
 app.get("/", (req, res) => {
   res.status(200).send("Server Working!!!");
