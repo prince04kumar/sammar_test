@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { SERVER_URL } from "../constants";
 
 const App = () => {
   const [formData, setFormData] = useState({
+    eventName: "Robo", // Put name of the event this form is for here
     teamName: "",
     teamLeaderName: "",
     teamLeaderPhone: "",
@@ -27,7 +29,7 @@ const App = () => {
     console.log("Form Data:", formData); // Log formData to check its contents
     try {
       const response = await axios.post(
-        "http://localhost:3000/register/user",
+        `${SERVER_URL}/register/event`,
         formData,
         {
           headers: {
@@ -35,9 +37,11 @@ const App = () => {
           },
         }
       );
+
       if (response.status === 201) {
         alert("Registration successful!");
         setFormData({
+          ...formData,
           teamName: "",
           teamLeaderName: "",
           teamLeaderPhone: "",
@@ -49,10 +53,38 @@ const App = () => {
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("An error occurred. Please try again.");
+
+      if (error.response) {
+        // Server responded with a status other than 2xx
+        console.error("Server Response Error:", error.response.data);
+
+        if (error.response.status === 400 && error.response.data.error) {
+          // If validation errors are provided by the server
+          if (Array.isArray(error.response.data.error)) {
+            alert(
+              `Validation Errors:\n- ${error.response.data.error.join("\n- ")}`
+            );
+          } else {
+            alert(`Error: ${error.response.data.error}`);
+          }
+        } else {
+          alert(
+            `Server Error: ${error.response.status} - ${error.response.statusText}`
+          );
+        }
+      } else if (error.request) {
+        // Request was made, but no response was received
+        console.error("No Response from Server:", error.request);
+        alert(
+          "No response from server. Please check your internet connection or try again later."
+        );
+      } else {
+        // Something else caused the error
+        console.error("Unexpected Error:", error.message);
+        alert(`Unexpected error: ${error.message}`);
+      }
     }
   };
-
 
   return (
     <div className="flex flex-col md:flex-row md:h-screen bg-gray-900 text-white p-4 md:p-11">

@@ -8,6 +8,7 @@ const registrationRoutes = require("./routers/registration");
 
 const PORT = process.env.PORT || 3000;
 const uri = process.env.MONGO_URI;
+const cors_origin = process.env.CORS;
 
 const clientOptions = {
   serverApi: { version: "1", strict: true, deprecationErrors: true },
@@ -27,7 +28,7 @@ run().catch(console.dir);
 
 app.use(
   cors({
-    origin: "http://localhost:5174",
+    origin: cors_origin,
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
