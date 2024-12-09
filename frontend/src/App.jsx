@@ -1,12 +1,15 @@
+import React, { useState } from 'react';
 import Registration from './Pages/Registration'
 
-function App() {
+const App = () => {
+  
 
   return (
     <>
-     <Registration />
-    </>
-  )
-}
+<Registration /></>
 
-export default App
+   
+  );
+};
+
+export default App;
