@@ -187,7 +187,7 @@ const FormPage = ({
               disabled={!selectedOption && !textInput}
             >
               Submit
-            </button>
+            </button>  
           ) : (
             <button
               className={`px-4 py-2 ${

@@ -3,70 +3,84 @@ import axios from "axios";
 import FormPage from "./FormPage";
 
 const App = () => {
-   const [step, setStep] = useState(1);
-   const [selectedOptions, setSelectedOptions] = useState({});
-   const [textInput, setTextInput] = useState('');
-   const [formSteps, setFormSteps] = useState({
-     1: { question: 'Which college?', options: ['A. NIT Raipur', 'B. Other'] },
-     2: { question: '', options: [] },
-     3: { question: 'Choose your gender', options: ['Male', 'Female'] },
-     4: { question: 'Choose your sport', options: [] },
-     5: { question: 'Enter your details', options: [] }, // Step for singles games
-     6: { question: 'Enter team details', options: [] }, // Step for multiplayer games
-   });
- 
-   const handleSelectOption = (option) => {
-     setSelectedOptions((prev) => ({ ...prev, [step]: option }));
-     if (step === 1) {
-       if (option === 'A. NIT Raipur') {
-         setFormSteps((prev) => ({
-           ...prev,
-           2: { question: 'Choose your branch', options: ['A. IT+Mech', 'B. ECE+CSE', 'C. XYZ+ABC', 'D. Arch+Biotech'] },
-         }));
-       } else {
-         setFormSteps((prev) => ({
-           ...prev,
-           2: { question: 'Enter your team name', options: [] },
-         }));
-       }
-     } else if (step === 3) {
-       if (option === 'Male') {
-         setFormSteps((prev) => ({
-           ...prev,
-           4: { question: 'Choose your sport', options: ['Cricket', 'Football','Shot-Put'] },
-         }));
-       } else if (option === 'Female') {
-         setFormSteps((prev) => ({
-           ...prev,
-           4: { question: 'Choose your sport', options: ['Volleyball', 'Handball', 'Shot-Put'] },
-         }));
-       }
-     } else if (step === 4) {
-       if (['Shot-Put'].includes(option)) {
-         setFormSteps((prev) => ({
-           ...prev,
-           5: { question: 'Enter your details', options: [] },
-         }));
-       } else {
-         setFormSteps((prev) => ({
-           ...prev,
-           5: { question: 'Enter team details', options: [] },
-         }));
-       }
-     }
-   };
- 
-   const handleNext = () => {
-     if (step < Object.keys(formSteps).length) setStep(step + 1);
-   };
- 
-   const handlePrevious = () => {
-     if (step > 1) setStep(step - 1);
-   };
+  const [step, setStep] = useState(1);
+  const [selectedOptions, setSelectedOptions] = useState({});
+  const [textInput, setTextInput] = useState("");
+  const [formSteps, setFormSteps] = useState({
+    1: { question: "Which college?", options: ["A. NIT Raipur", "B. Other"] },
+    2: { question: "", options: [] },
+    3: { question: "Choose your gender", options: ["Male", "Female"] },
+    4: { question: "Choose your sport", options: [] },
+    5: { question: "Enter your details", options: [] }, // Step for singles games
+    6: { question: "Enter team details", options: [] }, // Step for multiplayer games
+  });
 
-   const handleSubmit = (event) => {
+  const handleSelectOption = (option) => {
+    setSelectedOptions((prev) => ({ ...prev, [step]: option }));
+    if (step === 1) {
+      if (option === "A. NIT Raipur") {
+        setFormSteps((prev) => ({
+          ...prev,
+          2: {
+            question: "Choose your branch",
+            options: [
+              "A. IT+Mech",
+              "B. ECE+CSE",
+              "C. XYZ+ABC",
+              "D. Arch+Biotech",
+            ],
+          },
+        }));
+      } else {
+        setFormSteps((prev) => ({
+          ...prev,
+          2: { question: "Enter your team name", options: []},
+        }));
+      }
+    } else if (step === 3) {
+      if (option === "Male") {
+        setFormSteps((prev) => ({
+          ...prev,
+          4: {
+            question: "Choose your sport",
+            options: ["Cricket", "Football", "Shot-Put"],
+          },
+        }));
+      } else if (option === "Female") {
+        setFormSteps((prev) => ({
+          ...prev,
+          4: {
+            question: "Choose your sport",
+            options: ["Volleyball", "Handball", "Shot-Put"],
+          },
+        }));
+      }
+    } else if (step === 4) {
+      if (["Shot-Put"].includes(option)) {
+        setFormSteps((prev) => ({
+          ...prev,
+          5: { question: "Enter your details", options: [] },
+        }));
+      } else {
+        setFormSteps((prev) => ({
+          ...prev,
+          5: { question: "Enter team details", options: [] },
+        }));
+      }
+    }
+  };
+
+  const handleNext = () => {
+    if (step < Object.keys(formSteps).length) setStep(step + 1);
+  };
+
+  const handlePrevious = () => {
+    if (step > 1) setStep(step - 1);
+  };
+
+  const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('Selected Options:', selectedOptions);
+    console.log("Selected Options:", selectedOptions);
     // You can also send the selectedOptions to your backend here
   };
 
@@ -76,18 +90,18 @@ const App = () => {
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-4 md:p-8 bg-gray-800 rounded-lg mb-4 md:mb-0">
         <h1 className="text-2xl md:text-3xl font-bold mb-6">Register Now</h1>
         <FormPage
-  step={step}
-  question={formSteps[step].question}
-  options={formSteps[step].options}
-  selectedOption={selectedOptions[step]}
-  onSelectOption={handleSelectOption}
-  onNext={handleNext}
-  onPrevious={handlePrevious}
-  textInput={textInput}
-  setTextInput={setTextInput}
-  selectedOptions={selectedOptions} // Pass entire selectedOptions object
-  onSubmit={handleSubmit} // Pass handleSubmit to FormPage
-/>
+          step={step}
+          question={formSteps[step].question}
+          options={formSteps[step].options}
+          selectedOption={selectedOptions[step]}
+          onSelectOption={handleSelectOption}
+          onNext={handleNext}
+          onPrevious={handlePrevious}
+          textInput={textInput}
+          setTextInput={setTextInput}
+          selectedOptions={selectedOptions} // Pass entire selectedOptions object
+          onSubmit={handleSubmit} // Pass handleSubmit to FormPage
+        />
       </div>
       {/* Rules Section */}
       <div className="w-full md:w-1/2 p-4 md:p-8 flex flex-col justify-center bg-gray-900 overflow-auto">
